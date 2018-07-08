@@ -1,15 +1,14 @@
 package com.dds.lectordenotas.model;
 
-import com.dds.lectordenotas.model.repositories.Repositorios;
-import org.uqbar.commons.model.Repo;
 
-import static com.dds.lectordenotas.model.repositories.Repositorios.tareas;
+import java.util.Arrays;
+
+import static com.dds.lectordenotas.model.repositories.Repositorios.*;
 
 public class Fixture {
 
     public static void init() {
-        tareas.agregar(new Tarea(Repositorios.estudiante, new CalificacionConceptual(CalificacionConceptual.Valor.BIEN)));
-        tareas.agregar(new Tarea(Repositorios.estudiante, new CalificacionConceptual(CalificacionConceptual.Valor.REGULAR)));
-        tareas.agregar(new Tarea(new Estudiante("Cosme", "Fulanito", 1337433, "cosme"), new CalificacionConceptual(CalificacionConceptual.Valor.MAL)));
+        ASIGNACIONES.agregar(new Asignacion("Primer parcial DDS", ESTUDIANTE, Arrays.asList(new CalificacionNumerica(2), new CalificacionNumerica(8))));
+        ASIGNACIONES.agregar(new Asignacion("TP Arena", ESTUDIANTE, Arrays.asList(new CalificacionConceptual(CalificacionConceptual.Valor.MAL))));
     }
 }

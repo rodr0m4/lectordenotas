@@ -1,7 +1,10 @@
 package com.dds.lectordenotas.model;
 
+import org.uqbar.commons.model.annotations.Observable;
+
 import java.util.Objects;
 
+@Observable
 public class CalificacionNumerica implements Calificacion {
     private final int numero;
 
@@ -12,7 +15,7 @@ public class CalificacionNumerica implements Calificacion {
     }
 
     @Override
-    public boolean aprobado() {
+    public boolean getAprobado() {
         return numero > 5;
     }
 

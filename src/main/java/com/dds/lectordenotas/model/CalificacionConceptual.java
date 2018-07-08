@@ -1,7 +1,10 @@
 package com.dds.lectordenotas.model;
 
+import org.uqbar.commons.model.annotations.Observable;
+
 import java.util.Objects;
 
+@Observable
 public class CalificacionConceptual implements Calificacion {
     public enum Valor {
         MAL,
@@ -20,7 +23,7 @@ public class CalificacionConceptual implements Calificacion {
     }
 
     @Override
-    public boolean aprobado() {
+    public boolean getAprobado() {
         return this.valor != Valor.MAL;
     }
 
