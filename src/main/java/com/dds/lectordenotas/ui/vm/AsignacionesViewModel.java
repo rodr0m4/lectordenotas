@@ -14,9 +14,10 @@ public class AsignacionesViewModel {
     private List<Asignacion> asignaciones;
     private Asignacion asignacionSeleccionada;
 
-    public AsignacionesViewModel() {
-        estudianteLogueado = ESTUDIANTE;
-        asignaciones = ASIGNACIONES.delEstudiante(estudianteLogueado);
+    // TODO: Revisar si este código es correcto que esté aca.
+    public AsignacionesViewModel(Estudiante estudiante) {
+        this.estudianteLogueado = estudiante;
+        asignaciones = asignaciones().delEstudiante(estudianteLogueado);
         asignacionSeleccionada = asignaciones.get(0);
     }
 
@@ -30,6 +31,14 @@ public class AsignacionesViewModel {
 
     public Asignacion getAsignacionSeleccionada() {
         return asignacionSeleccionada;
+    }
+
+    public void setEstudianteLogueado(Estudiante estudianteLogueado) {
+        this.estudianteLogueado = estudianteLogueado;
+    }
+
+    public void setAsignaciones(List<Asignacion> asignaciones) {
+        this.asignaciones = asignaciones;
     }
 
     public void setAsignacionSeleccionada(Asignacion asignacionSeleccionada) {

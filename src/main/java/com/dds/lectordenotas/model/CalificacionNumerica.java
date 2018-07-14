@@ -15,7 +15,7 @@ public class CalificacionNumerica implements Calificacion {
     }
 
     @Override
-    public boolean getAprobado() {
+    public Boolean getAprobado() {
         return numero > 5;
     }
 

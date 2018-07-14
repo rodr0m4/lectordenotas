@@ -8,7 +8,7 @@ import static com.dds.lectordenotas.model.repositories.Repositorios.*;
 public class Fixture {
 
     public static void init() {
-        ASIGNACIONES.agregar(new Asignacion("Primer parcial DDS", ESTUDIANTE, Arrays.asList(new CalificacionNumerica(2), new CalificacionNumerica(8))));
-        ASIGNACIONES.agregar(new Asignacion("TP Arena", ESTUDIANTE, Arrays.asList(new CalificacionConceptual(CalificacionConceptual.Valor.MAL))));
+        asignaciones().agregar(new Asignacion("Primer parcial DDS", estudiante(), Arrays.asList(new CalificacionNumerica(2), new CalificacionNumerica(8))));
+        asignaciones().agregar(new Asignacion("TP Arena", estudiante(), Arrays.asList(new CalificacionConceptual(CalificacionConceptual.Valor.MAL))));
     }
 }

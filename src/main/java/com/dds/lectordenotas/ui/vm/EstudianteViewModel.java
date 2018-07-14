@@ -9,10 +9,6 @@ public class EstudianteViewModel {
 
     private Estudiante estudiante;
 
-    public EstudianteViewModel() {
-        this.estudiante = ESTUDIANTE;
-    }
-
     public Estudiante getEstudiante() {
         return estudiante;
     }

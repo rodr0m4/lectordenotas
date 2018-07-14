@@ -23,7 +23,7 @@ public class CalificacionConceptual implements Calificacion {
     }
 
     @Override
-    public boolean getAprobado() {
+    public Boolean getAprobado() {
         return this.valor != Valor.MAL;
     }
 

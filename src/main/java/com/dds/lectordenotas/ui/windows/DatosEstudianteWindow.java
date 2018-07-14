@@ -1,5 +1,6 @@
 package com.dds.lectordenotas.ui.windows;
 
+import com.dds.lectordenotas.model.Estudiante;
 import com.dds.lectordenotas.ui.vm.EstudianteViewModel;
 import org.uqbar.arena.layout.ColumnLayout;
 import org.uqbar.arena.widgets.*;
@@ -8,8 +9,9 @@ import org.uqbar.arena.windows.WindowOwner;
 
 public class DatosEstudianteWindow extends Dialog<EstudianteViewModel> {
 
-    public DatosEstudianteWindow(WindowOwner parent) {
+    public DatosEstudianteWindow(WindowOwner parent, Estudiante estudiante) {
         super(parent, new EstudianteViewModel());
+        this.getModelObject().setEstudiante(estudiante);
     }
 
     @Override
@@ -44,8 +46,8 @@ public class DatosEstudianteWindow extends Dialog<EstudianteViewModel> {
 
     @Override
     protected void addActions(Panel actions) {
-        new Button(actions).setCaption("Guardar").onClick(this::accept);
-        new Button(actions).setCaption("Cancelar").onClick(this::cancel).setAsDefault();
+        // TODO: Ver como hacer para que quede "cacheado" el modelo viejo, y en caso de cancelar, resetearlo.
+        new Button(actions).setCaption("Volver").onClick(this::accept).setAsDefault();
     }
 
 }
