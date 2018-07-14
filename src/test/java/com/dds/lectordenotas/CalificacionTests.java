@@ -4,7 +4,7 @@ import com.dds.lectordenotas.model.Calificacion;
 import com.dds.lectordenotas.model.CalificacionConceptual;
 import com.dds.lectordenotas.model.CalificacionNumerica;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 public class CalificacionTests {
 
@@ -15,33 +15,33 @@ public class CalificacionTests {
 
     @Test
     public void unMalNoEstaAprobado() {
-        assertEquals(false, mal.getAprobado());
+        assertThat(mal.getAprobado()).isFalse();
     }
 
     @Test
     public void unBienEstaAprobado() {
-        assertEquals(true, bien.getAprobado());
+        assertThat(bien.getAprobado()).isTrue();
     }
 
     @Test
     public void unDosNoEstaAprobado() {
-        assertEquals(false, dos.getAprobado());
+        assertThat(dos.getAprobado()).isFalse();
     }
 
     @Test
     public void unSeisEstaAprobado() {
-        assertEquals(true, seis.getAprobado());
+        assertThat(seis.getAprobado()).isTrue();
     }
 
     @Test
     public void conceptualesSeVenBien() {
-        assertEquals("M", mal.toString());
-        assertEquals("B", bien.toString());
+        assertThat(mal.toString()).isEqualTo("M");
+        assertThat(bien.toString()).isEqualTo("B");
     }
 
     @Test
     public void numericasSeVenBien() {
-        assertEquals("2", dos.toString());
-        assertEquals("6", seis.toString());
+        assertThat(dos.toString()).isEqualTo("2");
+        assertThat(seis.toString()).isEqualTo("6");
     }
 }

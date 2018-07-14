@@ -12,8 +12,9 @@ public class ReadOnlyTransformer<M, V> implements ValueTransformer<M, V> {
 
     @Override
     public M viewToModel(V v) {
-        // No anda AbstractReadOnlyTransformer wtf.
         return null;
+        // Si hago esto burbujea la excepcion cuando genero el transformer y me obliga a poner try/catch feos
+        //throw new RuntimeException("Esto no debería pasar");
     }
 
     @Override
