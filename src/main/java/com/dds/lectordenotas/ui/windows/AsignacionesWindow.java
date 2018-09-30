@@ -4,10 +4,8 @@ import com.dds.lectordenotas.model.Asignacion;
 import com.dds.lectordenotas.model.Estudiante;
 import com.dds.lectordenotas.ui.utils.ReadOnlyTransformer;
 import com.dds.lectordenotas.ui.vm.AsignacionesViewModel;
-import org.uqbar.apo.Read;
 import org.uqbar.arena.bindings.ObservableProperty;
 import org.uqbar.arena.bindings.PropertyAdapter;
-import org.uqbar.arena.bindings.ValueTransformer;
 import org.uqbar.arena.layout.ColumnLayout;
 import org.uqbar.arena.layout.HorizontalLayout;
 import org.uqbar.arena.layout.VerticalLayout;
@@ -76,7 +74,7 @@ public class AsignacionesWindow extends Dialog<AsignacionesViewModel> {
     }
 
     private void editarDatos() {
-        Dialog<?> window = new DatosEstudianteWindow(this, this.getModelObject().getEstudianteLogueado());
+        Dialog<?> window = new EditarDatosWindow(this, this.getModelObject().getEstudianteLogueado());
 
         window.open();
         window.onAccept(() -> {

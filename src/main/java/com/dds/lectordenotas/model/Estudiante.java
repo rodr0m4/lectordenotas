@@ -1,5 +1,6 @@
 package com.dds.lectordenotas.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.uqbar.commons.model.annotations.Observable;
 
 import java.util.Objects;
@@ -11,6 +12,9 @@ public class Estudiante {
     private int legajo;
     private String github;
 
+    public Estudiante() {
+    }
+
     public Estudiante(String nombre, String apellido, int legajo, String github) {
         this.nombre = nombre;
         this.apellido = apellido;
@@ -18,6 +22,7 @@ public class Estudiante {
         this.github = github;
     }
 
+    @JsonProperty("first_name")
     public String getNombre() {
         return nombre;
     }
@@ -26,6 +31,7 @@ public class Estudiante {
         this.nombre = nombre;
     }
 
+    @JsonProperty("last_name")
     public String getApellido() {
         return apellido;
     }
@@ -34,6 +40,7 @@ public class Estudiante {
         this.apellido = apellido;
     }
 
+    @JsonProperty("code")
     public int getLegajo() {
         return legajo;
     }
@@ -42,6 +49,7 @@ public class Estudiante {
         this.legajo = legajo;
     }
 
+    @JsonProperty("github_user")
     public String getGithub() {
         return github;
     }
@@ -65,5 +73,14 @@ public class Estudiante {
     public int hashCode() {
 
         return Objects.hash(nombre, apellido, legajo, github);
+    }
+
+    public Estudiante copy() {
+        return new Estudiante(
+                nombre,
+                apellido,
+                legajo,
+                github
+        );
     }
 }
