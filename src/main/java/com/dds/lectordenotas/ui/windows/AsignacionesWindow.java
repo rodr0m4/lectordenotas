@@ -19,10 +19,12 @@ import org.uqbar.commons.model.utils.ObservableUtils;
 import org.uqbar.lacar.ui.model.ListBuilder;
 import org.uqbar.lacar.ui.model.bindings.Binding;
 
+import java.util.List;
+
 public class AsignacionesWindow extends Dialog<AsignacionesViewModel> {
 
-    public AsignacionesWindow(WindowOwner parent, Estudiante estudianteLogueado) {
-        super(parent, new AsignacionesViewModel(estudianteLogueado));
+    public AsignacionesWindow(WindowOwner parent, List<Asignacion> asignaciones) {
+        super(parent, new AsignacionesViewModel(asignaciones));
     }
 
     @Override
@@ -33,11 +35,6 @@ public class AsignacionesWindow extends Dialog<AsignacionesViewModel> {
         Panel saludador = new Panel(parentContainer);
         saludador.setLayout(new HorizontalLayout());
 
-        // Java sigue siendo verbose af, aparte no se porque AbstractReadOnlyTransformer lanza una excepcion :/
-        new Label(saludador)
-                .bindValueToProperty("estudianteLogueado.nombre");
-//                .setTransformer(ReadOnlyTransformer.fromClosure((Estudiante estudiante) -> "Hola " + estudiante.getNombre() + "!", Estudiante.class, String.class));
-
         Panel form = new Panel(parentContainer);
         form.setLayout(new ColumnLayout(2));
 
@@ -47,15 +44,15 @@ public class AsignacionesWindow extends Dialog<AsignacionesViewModel> {
         asignacionSelector.allowNull(false);
         asignacionSelector.bindValueToProperty("asignacionSeleccionada");
         Binding<Asignacion, Selector<Asignacion>, ListBuilder<Asignacion>> itemBinding = asignacionSelector.bindItems(new ObservableProperty<>("asignaciones"));
-        itemBinding.setAdapter(new PropertyAdapter(Asignacion.class, "tarea"));
+        itemBinding.setAdapter(new PropertyAdapter(Asignacion.class, "titulo"));
 
-        new Label(form).setText("Calificacion Actual:");
-        new Label(form).bindValueToProperty("asignacionSeleccionada.ultimaCalificacion");
 
-        new Label(form).setText("Aprobó?");
-        new Label(form)
-                .bindValueToProperty("asignacionSeleccionada.ultimaCalificacion.aprobado")
-                .setTransformer(ReadOnlyTransformer.fromClosure((Boolean aprobo) -> aprobo ? "Si" : "No", boolean.class, String.class));
+        if (getModelObject().getAsignacionSeleccionada().hasUltimaCalificacion()) {
+            new Label(form).setText("Aprobó?");
+            new Label(form)
+                    .bindValueToProperty("asignacionSeleccionada.ultimaCalificacion.aprobado")
+                    .setTransformer(ReadOnlyTransformer.fromClosure((Boolean aprobo) -> aprobo ? "Si" : "No", boolean.class, String.class));
+        }
 
 
         Panel botonera = new Panel(parentContainer);
@@ -65,20 +62,5 @@ public class AsignacionesWindow extends Dialog<AsignacionesViewModel> {
                 new Button(botonera)
                 .setCaption("Salir")
                 .onClick(this::cancel);
-
-        Button aDatosEstudiante =
-                new Button(botonera)
-                .setCaption("Editar datos")
-                .setAsDefault()
-                .onClick(this::editarDatos);
-    }
-
-    private void editarDatos() {
-        Dialog<?> window = new EditarDatosWindow(this, this.getModelObject().getEstudianteLogueado());
-
-        window.open();
-        window.onAccept(() -> {
-            ObservableUtils.firePropertyChanged(this.getModelObject(), "estudianteLogueado");
-        });
     }
 }

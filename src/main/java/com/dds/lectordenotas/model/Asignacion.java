@@ -1,5 +1,6 @@
 package com.dds.lectordenotas.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.uqbar.commons.model.annotations.Observable;
 
 import java.util.ArrayList;
@@ -7,39 +8,62 @@ import java.util.List;
 
 @Observable
 public class Asignacion {
-    private String tarea;
-    private Estudiante estudiante;
+    private int id;
+    private String titulo;
+    private String descripcion;
     private List<Calificacion> calificaciones;
 
-    public Asignacion(String tarea, Estudiante estudiante, List<Calificacion> calificaciones) {
-        this.tarea = tarea;
-        this.estudiante = estudiante;
+    public Asignacion() {
+    }
+
+    public Asignacion(int id, String titulo, String descripcion, List<Calificacion> calificaciones) {
+        this.id = id;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
         this.calificaciones = calificaciones;
     }
 
-    public Asignacion(String tarea, Estudiante estudiante) {
-        this.tarea = tarea;
-        this.estudiante = estudiante;
-        this.calificaciones = new ArrayList<>();
+    @JsonProperty("id")
+    public int getId() {
+        return id;
     }
 
-    public String getTarea() {
-        return tarea;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public Estudiante getEstudiante() {
-        return estudiante;
+    @JsonProperty("title")
+    public String getTitulo() {
+        return titulo;
     }
 
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    @JsonProperty("description")
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    @JsonProperty("grades")
     public List<Calificacion> getCalificaciones() {
         return calificaciones;
     }
 
-    public Calificacion getUltimaCalificacion() {
-        return calificaciones.stream().reduce((una, otra) -> otra).orElse(null);
+    public void setCalificaciones(List<Calificacion> calificaciones) {
+        this.calificaciones = calificaciones;
     }
 
-    public void agregarCalificacion(Calificacion calificacion) {
-        calificaciones.add(calificacion);
+    public Calificacion getUltimaCalificacion() {
+        return calificaciones.get(0);
+    }
+
+    public boolean hasUltimaCalificacion() {
+        return calificaciones.size() > 0;
     }
 }

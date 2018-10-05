@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
@@ -48,9 +49,10 @@ public class Client {
                 throw new UnauthorizedException();
             }
 
-            if (response.code() != 200) {
+            if (response.code() != 200 || response.body() == null) {
                 throw new RuntimeException("Error code for response " + response + " was not 200");
             }
+
 
             return response.body();
         } catch (IOException e) {
@@ -61,7 +63,7 @@ public class Client {
 
     public void modificarPerfil(Estudiante estudiante) {
         try {
-            Response<Estudiante> response = notitas.modificarPerfil(authInfo, estudiante).execute();
+            Response<ResponseBody> response = notitas.modificarPerfil(authInfo, estudiante).execute();
 
             if (response.code() == 401) {
                 throw new UnauthorizedException();
@@ -78,7 +80,7 @@ public class Client {
 
     public List<Asignacion> assignments() {
         try {
-            Response<List<Asignacion>> response = notitas.asignaciones(authInfo).execute();
+            Response<AsignacionesResponse> response = notitas.asignaciones(authInfo).execute();
 
             if (response.code() == 401) {
                 throw new UnauthorizedException();
@@ -88,7 +90,7 @@ public class Client {
                 throw new RuntimeException("Error code for response " + response + " was not 200");
             }
 
-            return response.body();
+            return response.body().getAsignaciones();
         } catch (IOException e) {
             // TODO: Result type?
             throw new RuntimeException(e);

@@ -1,5 +1,6 @@
 package com.dds.lectordenotas.ui.windows;
 
+import com.dds.lectordenotas.model.Asignacion;
 import com.dds.lectordenotas.model.Estudiante;
 import com.dds.lectordenotas.ui.vm.EstudianteViewModel;
 import org.uqbar.arena.layout.ColumnLayout;
@@ -8,6 +9,10 @@ import org.uqbar.arena.widgets.Label;
 import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.windows.Dialog;
 import org.uqbar.arena.windows.WindowOwner;
+
+import java.util.List;
+
+import static com.dds.lectordenotas.model.repositories.Session.session;
 
 public class VerDatosWindow extends Dialog<EstudianteViewModel> {
     public VerDatosWindow(WindowOwner owner, Estudiante estudiante) {
@@ -38,6 +43,14 @@ public class VerDatosWindow extends Dialog<EstudianteViewModel> {
            Dialog<?> editarDatosWindow = new EditarDatosWindow(this, getModelObject().getEstudiante());
 
            editarDatosWindow.open();
+        });
+
+        new Button(actionsPanel).setCaption("Ver Notas").onClick(() -> {
+            List<Asignacion> asignaciones = session().getClient().assignments();
+
+            Dialog<?> asignacionesWindow = new AsignacionesWindow(this, asignaciones);
+
+            asignacionesWindow.open();
         });
     }
 }
