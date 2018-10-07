@@ -1,17 +1,23 @@
 package com.dds.lectordenotas;
 
-public class AsignacionRepositoryTest {
+import static org.junit.Assert.assertTrue;
 
-//    @Test
-//    public void delEstudianteTraeLasAsignacionesDelEstudiante() {
-//        AsignacionRepository repo = new AsignacionRepository();
-//        Estudiante estudiante = new Estudiante("Cosme", "Fulanito", 1337, "cf10");
-//        Asignacion asignacion = new Asignacion("Tomar birra", estudiante);
-//
-//        assertThat(repo.delEstudiante(estudiante)).isEmpty();
-//
-//        repo.agregar(asignacion);
-//
-//        assertThat(repo.delEstudiante(estudiante)).containsExactly(asignacion);
-//    }
+import java.util.List;
+
+import org.junit.Test;
+
+import com.dds.lectordenotas.model.Asignacion;
+import com.dds.lectordenotas.rest.Client;
+
+public class AsignacionTest {
+
+    @Test
+    public void traeAsignaciones() {
+    	Client client = Client.withToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIx"
+    			+ "MTEyMjIzMzMiLCJybmQiOiJ5SXNmZFIwN2lIR3BRRmVjYU9KT2VRPT0ifQ.9pVJGUXhrJPQ-TptNCt971l0h_1dWqWgMrHAWXJchho");
+    	
+        List<Asignacion> asignaciones = client.assignments();
+
+        assertTrue(!asignaciones.isEmpty());
+    }
 }

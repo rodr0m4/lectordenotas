@@ -1,41 +1,38 @@
 package com.dds.lectordenotas;
 
+import static org.junit.Assert.*;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import com.dds.lectordenotas.model.Calificacion;
+import com.dds.lectordenotas.rest.Client;
+
 public class CalificacionTests {
 
-//    final Calificacion mal = new CalificacionConceptual(CalificacionConceptual.Valor.MAL);
-//    final Calificacion bien = new CalificacionConceptual(CalificacionConceptual.Valor.BIEN);
-//    final Calificacion dos = new CalificacionNumerica(2);
-//    final Calificacion seis = new CalificacionNumerica(6);
-//
-//    @Test
-//    public void unMalNoEstaAprobado() {
-//        assertThat(mal.getAprobado()).isFalse();
-//    }
-//
-//    @Test
-//    public void unBienEstaAprobado() {
-//        assertThat(bien.getAprobado()).isTrue();
+	Client client; 
+	@Before
+	public void init() {
+		client = Client.withToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIx"
+    			+ "MTEyMjIzMzMiLCJybmQiOiJ5SXNmZFIwN2lIR3BRRmVjYU9KT2VRPT0ifQ.9pVJGUXhrJPQ-TptNCt971l0h_1dWqWgMrHAWXJchho");
+	}
+	
+//	@Test
+//    public void unBienMasEstaAprobado() {
+//		Calificacion bienMas = client.assignments().get(1).getCalificaciones().get(0);
+//        assertTrue(bienMas.getAprobado());
 //    }
 //
 //    @Test
 //    public void unDosNoEstaAprobado() {
-//        assertThat(dos.getAprobado()).isFalse();
+//		Calificacion dos = client.assignments().get(0).getCalificaciones().get(0);
+//        assertFalse(dos.getAprobado());
 //    }
 //
 //    @Test
-//    public void unSeisEstaAprobado() {
-//        assertThat(seis.getAprobado()).isTrue();
+//    public void unSieteEstaAprobado() {
+//    	Calificacion siete = client.assignments().get(0).getCalificaciones().get(1);
+//        assertTrue(siete.getAprobado());
 //    }
-//
-//    @Test
-//    public void conceptualesSeVenBien() {
-//        OassertThat(mal.toString()).isEqualTo("M");
-//        assertThat(bien.toString()).isEqualTo("B");
-//    }
-//
-//    @Test
-//    public void numericasSeVenBien() {
-//        assertThat(dos.toString()).isEqualTo("2");
-//        assertThat(seis.toString()).isEqualTo("6");
-//    }
+
 }

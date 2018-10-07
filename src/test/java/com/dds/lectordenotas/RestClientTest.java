@@ -1,6 +1,12 @@
 package com.dds.lectordenotas;
 
+import com.dds.lectordenotas.model.Asignacion;
 import com.dds.lectordenotas.rest.Client;
+
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,4 +17,5 @@ public class RestClientTest {
 
         Assert.assertEquals("Bearer 1234", client.getAuthInfo());
     }
+    
 }
