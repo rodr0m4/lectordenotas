@@ -1,7 +1,7 @@
 package com.dds.lectordenotas.ui.windows;
 
 import com.dds.lectordenotas.model.Estudiante;
-import com.dds.lectordenotas.rest.Client;
+import com.dds.lectordenotas.rest.NotitasAPIClient;
 import com.dds.lectordenotas.rest.UnauthorizedException;
 import com.dds.lectordenotas.ui.vm.LoginViewModel;
 import org.uqbar.arena.layout.ColumnLayout;
@@ -42,7 +42,7 @@ public class LoginWindow extends Dialog<LoginViewModel> {
     private void login() {
         try {
             session().setClient(
-                    Client.withToken(getModelObject().getToken())
+                    NotitasAPIClient.withToken(getModelObject().getToken())
             );
             Estudiante estudiante = session().getClient().perfil();
 

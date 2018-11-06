@@ -74,13 +74,4 @@ public class Estudiante {
 
         return Objects.hash(nombre, apellido, legajo, github);
     }
-
-    public Estudiante copy() {
-        return new Estudiante(
-                nombre,
-                apellido,
-                legajo,
-                github
-        );
-    }
 }

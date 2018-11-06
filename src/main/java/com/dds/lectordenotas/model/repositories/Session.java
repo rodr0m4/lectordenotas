@@ -1,12 +1,12 @@
 package com.dds.lectordenotas.model.repositories;
 
-import com.dds.lectordenotas.rest.Client;
+import com.dds.lectordenotas.rest.NotitasAPIClient;
 
 public class Session {
 
     private static final Session INSTANCE = new Session();
 
-    private Client client;
+    private NotitasAPIClient client;
 
     private Session() {}
 
@@ -14,11 +14,11 @@ public class Session {
         return INSTANCE;
     }
 
-    public Client getClient() {
+    public NotitasAPIClient getClient() {
         return client;
     }
 
-    public void setClient(Client client) {
+    public void setClient(NotitasAPIClient client) {
         this.client = client;
     }
 }

@@ -2,7 +2,6 @@ package com.dds.lectordenotas.ui.windows;
 
 import com.dds.lectordenotas.model.Asignacion;
 import com.dds.lectordenotas.model.Estudiante;
-import com.dds.lectordenotas.ui.vm.EstudianteViewModel;
 import org.uqbar.arena.layout.ColumnLayout;
 import org.uqbar.arena.widgets.Button;
 import org.uqbar.arena.widgets.Label;
@@ -14,9 +13,9 @@ import java.util.List;
 
 import static com.dds.lectordenotas.model.repositories.Session.session;
 
-public class VerDatosWindow extends Dialog<EstudianteViewModel> {
+public class VerDatosWindow extends Dialog<Estudiante> {
     public VerDatosWindow(WindowOwner owner, Estudiante estudiante) {
-        super(owner, new EstudianteViewModel(estudiante));
+        super(owner, estudiante);
     }
 
     @Override
@@ -24,23 +23,16 @@ public class VerDatosWindow extends Dialog<EstudianteViewModel> {
         Panel form = new Panel(panel);
         form.setLayout(new ColumnLayout(2));
 
-        new Label(form).setText("Nombre:");
-        new Label(form).bindValueToProperty("estudiante.nombre");
-
-        new Label(form).setText("Apellido:");
-        new Label(form).bindValueToProperty("estudiante.apellido");
-
-        new Label(form).setText("Legajo:");
-        new Label(form).bindValueToProperty("estudiante.legajo");
-
-        new Label(form).setText("Github:");
-        new Label(form).bindValueToProperty("estudiante.github");
+        generateDescriptionAndValueLabelForProp(form, "Nombre:", "nombre");
+        generateDescriptionAndValueLabelForProp(form, "Apellido:", "apellido");
+        generateDescriptionAndValueLabelForProp(form, "Legajo:", "legajo");
+        generateDescriptionAndValueLabelForProp(form, "Github:", "github");
     }
 
     @Override
     protected void addActions(Panel actionsPanel) {
         new Button(actionsPanel).setCaption("Editar").setAsDefault().onClick(() -> {
-           Dialog<?> editarDatosWindow = new EditarDatosWindow(this, getModelObject().getEstudiante());
+           Dialog<?> editarDatosWindow = new EditarDatosWindow(this, getModelObject());
 
            editarDatosWindow.open();
         });
@@ -52,5 +44,16 @@ public class VerDatosWindow extends Dialog<EstudianteViewModel> {
 
             asignacionesWindow.open();
         });
+    }
+
+    private void generateDescriptionAndValueLabelForProp(Panel panel, String description, String property) {
+        // Alternativa. Me pareció una exageración y te acoplaba a los nombres de las
+        // properties (rompería encapsulamiento tambien).
+        // String firstLetter = property.substring(0, 1).toUpperCase();
+        // String ending = property.substring(1) + ":";
+        // new Label(panel).setText(firstLetter + ending);
+
+        new Label(panel).setText(description);
+        new Label(panel).bindValueToProperty(property);
     }
 }

@@ -1,7 +1,7 @@
 package com.dds.lectordenotas.rest;
 
-public class UnauthorizedException extends RuntimeException {
+public class UnauthorizedException extends RestException {
     public UnauthorizedException() {
-        super("Access Token invalido");
+        super(401);
     }
 }

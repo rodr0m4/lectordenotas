@@ -1,19 +1,15 @@
 package com.dds.lectordenotas;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
-import org.junit.Test;
 
-import com.dds.lectordenotas.model.Calificacion;
-import com.dds.lectordenotas.rest.Client;
+import com.dds.lectordenotas.rest.NotitasAPIClient;
 
 public class CalificacionTests {
 
-	Client client; 
+	NotitasAPIClient client;
 	@Before
 	public void init() {
-		client = Client.withToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIx"
+		client = NotitasAPIClient.withToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIx"
     			+ "MTEyMjIzMzMiLCJybmQiOiJ5SXNmZFIwN2lIR3BRRmVjYU9KT2VRPT0ifQ.9pVJGUXhrJPQ-TptNCt971l0h_1dWqWgMrHAWXJchho");
 	}
 	

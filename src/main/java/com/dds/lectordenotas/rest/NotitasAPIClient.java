@@ -16,19 +16,22 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
-public class Client {
+import static java.util.Collections.emptyList;
+
+public class NotitasAPIClient {
     private static final String baseUrl = "http://notitas.herokuapp.com";
 
     private final String authInfo;
-    private final Notitas notitas;
+    private final NotitasAPISpec notitas;
 
-    private Client(String authInfo, Notitas notitas) {
+    private NotitasAPIClient(String authInfo, NotitasAPISpec notitas) {
         this.authInfo = authInfo;
         this.notitas = notitas;
     }
 
-    public static Client withToken(String token) {
+    public static NotitasAPIClient withToken(String token) {
         String authInfo = String.format("Bearer %s", token);
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -36,25 +39,19 @@ public class Client {
                 .addConverterFactory(JacksonConverterFactory.create(defaultObjectMapper()))
                 .build();
 
-        Notitas notitas = retrofit.create(Notitas.class);
+        NotitasAPISpec notitas = retrofit.create(NotitasAPISpec.class);
 
-        return new Client(authInfo, notitas);
+        return new NotitasAPIClient(authInfo, notitas);
     }
 
     public Estudiante perfil() {
         try {
             Response<Estudiante> response = notitas.perfil(authInfo).execute();
 
-            if (response.code() == 401) {
-                throw new UnauthorizedException();
-            }
+            Optional<Estudiante> estudiante = validateResponse(response);
 
-            if (response.code() != 200 || response.body() == null) {
-                throw new RuntimeException("Error code for response " + response + " was not 200");
-            }
-
-
-            return response.body();
+            // Estoy seguro de que va a existir el estudiante
+            return estudiante.get();
         } catch (IOException e) {
             // TODO: Result type?
             throw new RuntimeException(e);
@@ -65,13 +62,7 @@ public class Client {
         try {
             Response<ResponseBody> response = notitas.modificarPerfil(authInfo, estudiante).execute();
 
-            if (response.code() == 401) {
-                throw new UnauthorizedException();
-            }
-
-            if (response.code() != 201) {
-                throw new RuntimeException("Error code for response " + response + " was not 201");
-            }
+            validateResponse(response);
         } catch (IOException e) {
             // TODO: Result type?
             throw new RuntimeException(e);
@@ -82,15 +73,11 @@ public class Client {
         try {
             Response<AsignacionesResponse> response = notitas.asignaciones(authInfo).execute();
 
-            if (response.code() == 401) {
-                throw new UnauthorizedException();
-            }
+            Optional<AsignacionesResponse> maybeAsignaciones = validateResponse(response);
 
-            if (response.code() != 200) {
-                throw new RuntimeException("Error code for response " + response + " was not 200");
-            }
-
-            return response.body().getAsignaciones();
+            return maybeAsignaciones
+                    .map(AsignacionesResponse::getAsignaciones)
+                    .orElse(emptyList());
         } catch (IOException e) {
             // TODO: Result type?
             throw new RuntimeException(e);
@@ -111,5 +98,17 @@ public class Client {
                 .configure(SerializationFeature.FLUSH_AFTER_WRITE_VALUE, true)
                 .setSerializationInclusion(JsonInclude.Include.NON_ABSENT)
                 .setPropertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
+    }
+
+    private <T> Optional<T> validateResponse(Response<T> response) {
+        if (response.code() == 401) {
+            throw new UnauthorizedException();
+        }
+
+        if (response.code() != 200) {
+            throw new RestException(response.code());
+        }
+
+        return Optional.ofNullable(response.body());
     }
 }
