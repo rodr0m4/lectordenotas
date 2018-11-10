@@ -1,16 +1,18 @@
 package com.dds.lectordenotas.ui.windows;
 
-import com.dds.lectordenotas.model.Estudiante;
+import static com.dds.lectordenotas.model.repositories.Session.session;
+
 import org.uqbar.arena.aop.windows.TransactionalDialog;
 import org.uqbar.arena.layout.ColumnLayout;
-import org.uqbar.arena.widgets.*;
 import org.uqbar.arena.widgets.Button;
+import org.uqbar.arena.widgets.Control;
 import org.uqbar.arena.widgets.Label;
+import org.uqbar.arena.widgets.NumericField;
 import org.uqbar.arena.widgets.Panel;
-import org.uqbar.arena.windows.Dialog;
+import org.uqbar.arena.widgets.TextBox;
 import org.uqbar.arena.windows.WindowOwner;
 
-import static com.dds.lectordenotas.model.repositories.Session.session;
+import com.dds.lectordenotas.model.Estudiante;
 
 public class EditarDatosWindow extends TransactionalDialog<Estudiante> {
 
@@ -28,28 +30,28 @@ public class EditarDatosWindow extends TransactionalDialog<Estudiante> {
         Control nombre = new TextBox(form)
                 .setWidth(100)
                 .alignRight();
-        nombre.bindValueToProperty("estudiante.nombre");
+        nombre.bindValueToProperty("nombre");
 
         new Label(form).setText("Apellido:");
 
         Control apellido = new TextBox(form)
                 .setWidth(100)
                 .alignRight();
-        apellido.bindValueToProperty("estudiante.apellido");
+        apellido.bindValueToProperty("apellido");
 
         new Label(form).setText("Legajo:");
 
         Control legajo = new NumericField(form)
                 .setWidth(100)
                 .alignRight();
-        legajo.bindValueToProperty("estudiante.legajo");
+        legajo.bindValueToProperty("legajo");
 
         new Label(form).setText("Github:");
 
         Control github = new TextBox(form)
                 .setWidth(100)
-                .alignRight();
-        github.bindValueToProperty("estudiante.github");
+                .alignRight();	
+        github.bindValueToProperty("github");
     }
 
     @Override
@@ -57,6 +59,8 @@ public class EditarDatosWindow extends TransactionalDialog<Estudiante> {
         new Button(actions).setCaption("Volver").onClick(this::accept).setAsDefault();
         new Button(actions).setCaption("Confirmar").onClick(() -> {
             session().getClient().modificarPerfil(getModelObject());
+            EditarDatosWindow.super.showInfo("Perfil modificado");
+            this.close();
         });
     }
 }

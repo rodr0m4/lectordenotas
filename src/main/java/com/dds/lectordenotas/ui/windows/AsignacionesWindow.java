@@ -1,9 +1,7 @@
 package com.dds.lectordenotas.ui.windows;
 
-import com.dds.lectordenotas.model.Asignacion;
-import com.dds.lectordenotas.model.Estudiante;
-import com.dds.lectordenotas.ui.utils.ReadOnlyTransformer;
-import com.dds.lectordenotas.ui.vm.AsignacionesViewModel;
+import java.util.List;
+
 import org.uqbar.arena.bindings.ObservableProperty;
 import org.uqbar.arena.bindings.PropertyAdapter;
 import org.uqbar.arena.layout.ColumnLayout;
@@ -15,11 +13,12 @@ import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.widgets.Selector;
 import org.uqbar.arena.windows.Dialog;
 import org.uqbar.arena.windows.WindowOwner;
-import org.uqbar.commons.model.utils.ObservableUtils;
+import org.uqbar.lacar.ui.model.Action;
 import org.uqbar.lacar.ui.model.ListBuilder;
 import org.uqbar.lacar.ui.model.bindings.Binding;
 
-import java.util.List;
+import com.dds.lectordenotas.model.Asignacion;
+import com.dds.lectordenotas.ui.vm.AsignacionesViewModel;
 
 public class AsignacionesWindow extends Dialog<AsignacionesViewModel> {
 
@@ -41,18 +40,24 @@ public class AsignacionesWindow extends Dialog<AsignacionesViewModel> {
         new Label(form).setText("Tareas:");
 
         Selector<Asignacion> asignacionSelector = new Selector<>(form);
-        asignacionSelector.allowNull(false);
-        asignacionSelector.bindValueToProperty("asignacionSeleccionada");
+        asignacionSelector.allowNull(true);
         Binding<Asignacion, Selector<Asignacion>, ListBuilder<Asignacion>> itemBinding = asignacionSelector.bindItems(new ObservableProperty<>("asignaciones"));
         itemBinding.setAdapter(new PropertyAdapter(Asignacion.class, "titulo"));
 
+        asignacionSelector.onSelection(new Action() {
+			
+			@Override
+			public void execute() {
+				asignacionSelector.bindValueToProperty("asignacionSeleccionada");
 
-        if (getModelObject().getAsignacionSeleccionada().hasUltimaCalificacion()) {
-            new Label(form).setText("AprobÃ³?");
-            new Label(form)
-                    .bindValueToProperty("asignacionSeleccionada.ultimaCalificacion.aprobado")
-                    .setTransformer(ReadOnlyTransformer.fromClosure((Boolean aprobo) -> aprobo ? "Si" : "No", boolean.class, String.class));
-        }
+				if (getModelObject().getAsignacionSeleccionada().hasUltimaCalificacion()) {
+					AsignacionesWindow.super.showInfo(String.format("Aprobó: %s", getModelObject().getAsignacionSeleccionada().getUltimaCalificacion().getAprobado() ? "Si" : "No"))	;
+				}
+				else {
+					AsignacionesWindow.super.showInfo("Todavía no hay nota");
+				}
+			}
+		});
 
 
         Panel botonera = new Panel(parentContainer);

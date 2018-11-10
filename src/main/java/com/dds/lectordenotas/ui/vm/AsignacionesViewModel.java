@@ -1,9 +1,10 @@
 package com.dds.lectordenotas.ui.vm;
 
-import com.dds.lectordenotas.model.Asignacion;
+import java.util.List;
+
 import org.uqbar.commons.model.annotations.Observable;
 
-import java.util.List;
+import com.dds.lectordenotas.model.Asignacion;
 
 @Observable
 public class AsignacionesViewModel {
@@ -13,8 +14,9 @@ public class AsignacionesViewModel {
     public AsignacionesViewModel(List<Asignacion> asignaciones) {
         this.asignaciones = asignaciones;
         if (asignaciones.size() > 0) {
-            this.asignacionSeleccionada = asignaciones.get(0);
+        	this.asignacionSeleccionada = asignaciones.get(0);
         }
+
     }
 
     public List<Asignacion> getAsignaciones() {

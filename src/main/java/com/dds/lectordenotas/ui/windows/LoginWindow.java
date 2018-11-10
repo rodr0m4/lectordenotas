@@ -23,7 +23,7 @@ public class LoginWindow extends Dialog<LoginViewModel> {
     protected void createFormPanel(Panel panel) {
         Panel form = new Panel(panel);
         form.setLayout(new ColumnLayout(1));
-
+        
         new Label(form)
                 .setText("Por favor ingrese su token:")
                 .alignCenter();

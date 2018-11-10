@@ -17,6 +17,7 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 import static java.util.Collections.emptyList;
 
@@ -105,7 +106,7 @@ public class NotitasAPIClient {
             throw new UnauthorizedException();
         }
 
-        if (response.code() != 200) {
+        if (!Pattern.matches("2\\d\\d", String.valueOf(response.code())))  {
             throw new RestException(response.code());
         }
 
